@@ -1,15 +1,31 @@
+
+.placedata <- list(
+  nedlands=list(lon=115.82,lat=-31.99),
+  perth=list(lon=115.86,lat=-31.95),
+  northpole=list(lon=0,lat=90),
+  southpole=list(lon=0,lat=-90),
+  casey=list(lon=110.524, lat=-66.282),
+  mawson=list(lon=62.8667, lat=-67.6000),
+  madrid=list(lon=4+25/60, lat=40+17/60),
+  aarhus=list(lon=10.21, lat=56.16),
+  aalborg=list(lon=9.92, lat=57.05),
+  newyorkcity=
+  list(lon=-(74+0/60+23/3600),lat=40+42/60+51/3600),
+  titanic=list(lon=-(50+14/60), lat=41+46/60),
+  pyongyang=list(lon=125.7381, lat=39.0194),
+  everest=list(lon=86.9253, lat=27.9881),
+  kilimanjaro=list(lon=37.3533, lat=3.0758)
+)
+
 place <- function(placename) {
    stopifnot(is.character(placename))
-   switch(placename,
-     nedlands=list(lon=115.82,lat=-31.99),
-     northpole=list(lon=0,lat=90),
-     madrid=list(lon=4+25/60, lat=40+17/60),
-     aarhus=list(lon=56.160, lat=10.270),
-     newyorkcity=
-        list(lon=-(74+0/60+23/3600),lat=40+42/60+51/3600),
-     titanic=list(lon=-(50+14/60), lat=41+46/60),
-     stop(paste("Unrecognised placename", sQuote(placename)))
-)
+   pn <- tolower(placename)
+   if(pn %in% names(.placedata))
+     return(.placedata[[pn]])
+   stop(paste("Unrecognised placename", sQuote(placename),
+              "-- available places are",
+              paste(sQuote(names(.placedata)), collapse=", ")),
+        call.=FALSE)
 }
 
 
@@ -258,13 +274,14 @@ globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) 
   segments(x0[ok], y0[ok], x1[ok], y1[ok], ...)
 }
 
-globedrawlong <- function(lon, eye=place("nedlands"), top=place("northpole"), ...) {
-
-  globelines(expand.grid(lon=lon,lat=seq(-90,90,by=1)), eye, top, ...)
+globedrawlong <- function(lon, eye=place("nedlands"),
+                          top=place("northpole"), ...) {
+  globelines(expand.grid(lat=seq(-90,90,by=1), lon=lon)[,2:1],
+             eye, top, ...)
 }
 
-globedrawlat <- function(lat, eye=place("nedlands"), top=place("northpole"), ...) {
-
+globedrawlat <- function(lat, eye=place("nedlands"),
+                         top=place("northpole"), ...) {
   globelines(expand.grid(lon=seq(-180,180,by=1), lat=lat), eye, top, ...)
 }
 
