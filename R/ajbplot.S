@@ -199,7 +199,7 @@ if(missing(runlen)) {
   spos <- spatialpos(gdata[,1],gdata[,2])
   mpos <- orthogproj(eye, top, spos)
 
-  plot(c(-1,1), c(-1,1), type = "n", axes=FALSE, xlab="", ylab="")
+  plot(c(-1,1), c(-1,1), type = "n", asp=1, axes=FALSE, xlab="", ylab="")
 
   x <- mpos[,1]
   y <- mpos[,2]
