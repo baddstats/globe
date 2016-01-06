@@ -1,0 +1,11 @@
+Package: globe
+Type: Package
+Title: Plots of the globe and its projections
+Version: 1.0-0
+Date: 2010-06-10
+Author: Adrian Baddeley and Tom Lawrence
+Maintainer: Tom Lawrence <lawret01@student.uwa.edu.au>
+Description: Package to plot 3D and 2D views of the Earth including major coastline, and to perform projections.
+License: GPL (>= 2.0)
+LazyLoad: yes
+Packaged: 2014-07-01 10:51:51 UTC; Owner
