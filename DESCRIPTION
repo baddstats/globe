@@ -1,8 +1,8 @@
 Package: globe
 Type: Package
 Title: Plots of the Globe and its Projections
-Version: 1.0-3
-Date: 2016-01-06
+Version: 1.0-4
+Date: 2016-01-11
 Author: Adrian Baddeley and Tom Lawrence
 Maintainer: Adrian Baddeley <adrian.baddeley@curtin.edu.au>
 Description: Package to plot 3D and 2D views of the Earth including major coastline, and to perform projections.

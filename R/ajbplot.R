@@ -1,6 +1,7 @@
 
 .placedata <- list(
   nedlands=list(lon=115.82,lat=-31.99),
+  curtin=list(lon=115.9240, lat=-32.0010),
   perth=list(lon=115.86,lat=-31.95),
   northpole=list(lon=0,lat=90),
   southpole=list(lon=0,lat=-90),
@@ -264,7 +265,7 @@ globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) 
   mpos <- orthogproj(eye, top, spos)
   x <- mpos[,1]
   y <- mpos[,2]
-  ok <- (mpos[,3] < 0)
+  ok <- complete.cases(mpos) & (mpos[,3] < 0)
   n <- nrow(mpos)
   x0 <- x[-n]
   x1 <- x[-1]
@@ -276,7 +277,7 @@ globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) 
 
 globedrawlong <- function(lon, eye=place("nedlands"),
                           top=place("northpole"), ...) {
-  globelines(expand.grid(lat=seq(-90,90,by=1), lon=lon)[,2:1],
+  globelines(expand.grid(lat=c(seq(-90,90,by=1), NA), lon=lon)[,2:1],
              eye, top, ...)
 }
 
