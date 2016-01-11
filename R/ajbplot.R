@@ -283,7 +283,7 @@ globedrawlong <- function(lon, eye=place("nedlands"),
 
 globedrawlat <- function(lat, eye=place("nedlands"),
                          top=place("northpole"), ...) {
-  globelines(expand.grid(lon=seq(-180,180,by=1), lat=lat), eye, top, ...)
+  globelines(expand.grid(lon=c(seq(-180,180,by=1), NA), lat=lat), eye, top, ...)
 }
 
 runifsphere <- function(n) {
