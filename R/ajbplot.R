@@ -34,15 +34,12 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
                       gdata, runlen, asp=NULL){
    if(missing(projection)) 
        projection <- "atlas"
-if(missing(gdata)) {
-      data(globedata)
-      gdata <- get("gwm")
-  }
-if(missing(runlen)) {
-      data(globedata)
-      runlen <- get("rmp")
-  }
-
+   if(missing(gdata)) {
+     gdata <- get("earth")$coords
+   }
+   if(missing(runlen)) {
+     runlen <- get("earth")$runlen
+   }
   lonlat <- ensurelonlat(gdata)
   x <- lon <- lonlat$lon
   y <- lat <- lonlat$lat
@@ -202,12 +199,10 @@ ensurelonlat <- function(x) {
 globeearth <- function(gdata, runlen, eye=place("nedlands"), top=place("northpole")) {
 
   if(missing(gdata)) {
-      data(globedata)
-      gdata <- get("gwm")
+    gdata <- get("earth")$coords
   }
-if(missing(runlen)) {
-      data(globedata)
-      runlen <- get("rmp")
+  if(missing(runlen)) {
+    runlen <- get("earth")$runlen
   }
   
   eye <- ensure3d(eye)
