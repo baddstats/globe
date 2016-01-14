@@ -1,1 +1,4 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("graphics", "axis", "box", "lines", "plot", "points",
+           "segments", "text", "title")
+importFrom("stats", "complete.cases", "runif")

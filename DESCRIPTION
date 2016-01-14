@@ -1,10 +1,13 @@
 Package: globe
 Type: Package
 Title: Plot 2D and 3D Views of the Earth, Including Major Coastline
-Version: 1.1-0
+Version: 1.1-1
 Date: 2016-01-14
-Author: Adrian Baddeley and Tom Lawrence
+Authors@R: c(person("Adrian", "Baddeley", role = c("aut", "cre"),
+     		     email = "adrian.baddeley@curtin.edu.au"),
+	     person("Thomas", "Lawrence", role = "aut"))
 Maintainer: Adrian Baddeley <adrian.baddeley@curtin.edu.au>
+Depends: graphics, stats
 Description: Basic functions for plotting 2D and 3D views of a sphere, by default the Earth with its major coastline, and additional lines and points. 
 License: GPL (>= 2.0)
 LazyData: yes
