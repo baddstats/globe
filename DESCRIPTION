@@ -1,12 +1,12 @@
 Package: globe
 Type: Package
-Title: Plots of the Globe and its Projections
-Version: 1.0-5
-Date: 2016-01-11
+Title: Plot 2D and 3D Views of the Earth, Including Major Coastline
+Version: 1.1-0
+Date: 2016-01-14
 Author: Adrian Baddeley and Tom Lawrence
 Maintainer: Adrian Baddeley <adrian.baddeley@curtin.edu.au>
-Description: Package to plot 3D and 2D views of the Earth including major coastline, and to perform projections.
+Description: Low-overhead package providing basic functions for plotting 2D and 3D views of a sphere, by default the Earth with its major coastline, and additional lines and points.
 License: GPL (>= 2.0)
-LazyLoad: yes
+LazyData: yes
 ByteCompile: yes
 

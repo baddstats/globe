@@ -3,19 +3,24 @@
 \alias{globe}
 \docType{package}
 \title{
-Plotting and analysis of spatial data on planet Earth
+  Simple 2D and 3D plots of Spheres including Earth
 }
 \description{
-This package allows a user to plot locations of points on an image of the planet Earth, either using a image of the globe, or one of two flat projections.  Simple tools to allow the plotting of lines and longitude and latitude, and for the globe image allowing its rotation, are also provided.
+  A simple package to plot 2D and 3D views of a sphere.
+  Options include drawing Earth with
+  its major coastline, plotting the lines of longitude and latitude,
+  and plotting points and curves at any locations on the sphere.
 }
 \details{
-\tabular{ll}{
-Package: \tab globe\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2010-06-10\cr
-LazyLoad: \tab yes\cr
-}
+  This package provides very basic tools for plotting lines and points
+  on a sphere. It does not require installation of any other libraries.
+  
+  The major functions are \code{\link{globeearth}} to plot
+  a 3D view of a sphere (by default the Earth with its major coastline)
+  and \code{\link{flatearth}} to plot a 2D projection of the sphere.
+
+  Additional tools include \code{\link{globelines}} and
+  \code{\link{globepoints}} to draw lines and points on the sphere.
 }
 \author{
 Adrian Baddeley and Tom Lawrence

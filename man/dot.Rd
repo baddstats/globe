@@ -4,17 +4,16 @@
 Dot Product
 }
 \description{
-Computes the cross product of two vectors.
+Computes the dot product of two vectors.
 }
 \usage{
 dot(a, b)
 }
 \arguments{
   \item{a,b}{
-two vectors of equal length
+    Two vectors of equal length.
+  }
 }
-}
-
 \details{
 Vectors can be of any length provided they are equal.
 }
@@ -28,7 +27,6 @@ Adrian Baddeley and Tom Lawrence
 \code{\link{cross}}
 }
 \examples{
-dot(c(2,1),c(-3,4))
+  dot(c(2,1),c(-3,4))
 }
-
 \keyword{"spatial"}

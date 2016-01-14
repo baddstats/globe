@@ -1,34 +1,44 @@
 \name{globeearth}
 \alias{globeearth}
 \title{
-  Plot Earth as 3D globe
+  Plot Earth as 3D Globe
 }
 \description{
-Plots the Earth as a globe, seen from a specified viewpoint, with a map of the major coastline.
+  Plots the Earth as a 3D sphere, seen from a specified viewpoint,
+  with a map of the major coastline (by default).
 }
 \usage{
-globeearth(gdata, runlen, eye, top)
+  globeearth(gdata, runlen, eye, top)
 }
 \arguments{
   \item{gdata}{
    Two-column matrix of latitude, longitude coordinates of 
-   coastline vertices.
+   coastline vertices. Defaults to \code{earth$coords}.
+   If \code{NULL}, no coastline is plotted.
 }
   \item{runlen}{
-   Integer vector giving the number of vertices in each connected polygon in the coastline.
+   Integer vector giving the number of vertices in each connected
+   polygon in the coastline. Defaults to \code{earth$runlen}.
 }
   \item{eye}{
-Viewpoint. A vector of length 3 determining a position in space.
-}
+    Viewpoint. A vector of length 3 (or a \code{list(lon,lat)})
+    determining a position in space.
+  }
   \item{top}{
-   Vector of length 3 determining a position in space. The plot will be rotated so that this position appears to be directly above the centre of the earth.
-}
+    Vector of length 3 (or a \code{list(lon,lat)})
+    determining a position in space. The plot will be
+    rotated so that this position appears to be directly above the
+    centre of the earth. 
+  }
 }
 \details{
-More 
+  The globe is drawn as it would be seen by a viewer at position
+  \code{eye}, with the location \code{top} at the top of the plot.
+  Only those parts of the coastline that are visible from \code{eye}
+  (on the side of the globe facing \code{eye}) will be plotted.
 }
 \value{
-None
+Null.
 }
 \author{
 Adrian Baddeley and Tom Lawrence

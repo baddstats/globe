@@ -15,13 +15,16 @@ This function gives the locations of selected places on Earth.
   and latitude in degrees.
 }
 \details{
-\code{aarhus} is the city of Aarhus in Denmark; 
-\code{madrid} is the capital of Spain;
-\code{nedlands} is the location of the University of Western Australia in Perth, Western Australia;
-\code{newyorkcity} and
-\code{northpole} are self explanatory; and
-\code{titanic} is the location of the wreck of 
-the \emph{Titanic}.
+  \code{aarhus} and \code{aalborg} are cities in Denmark; 
+  \code{madrid} is the capital of Spain;
+  \code{perth} is the capital of Western Australia;
+  \code{curtin} is the location of Curtin University, Western Australia;
+  \code{titanic} is the location of the wreck of 
+  the \emph{Titanic};
+  \code{casey} and \code{mawson} are bases in the Australian Antarctic
+  Territory;
+  \code{newyorkcity}, \code{pyongyang}, \code{everest}, \code{kilimanjaro},
+  \code{northpole} and \code{southpole} are self explanatory.
 }
 \source{
 General knowledge.
