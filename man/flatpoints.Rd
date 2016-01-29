@@ -8,7 +8,7 @@
   \code{\link{flatearth}}, taking into account the projection used. 
 }
 \usage{
-  flatpoints(loc, projection = c("atlas", "cylindrical"), ...)
+  flatpoints(loc, projection = c("atlas", "cylindrical"), ..., do.plot)
 }
 \arguments{
   \item{loc}{
@@ -20,10 +20,18 @@
   \item{\dots}{
     Other arguments usually used when plotting points.
   }
+  \item{do.plot}{
+    Logical value indicating whether to actually perform the plotting,
+    or just to return the calculated coordinates.
+  }
 }
 \details{
   If the value of projection used in this function is not the one used
   to create the image, then the points will not be plotted. 
+}
+\value{
+  (Invisibly) a \code{list(x,y)} giving the plotted positions of
+  the points.
 }
 \author{
   Adrian Baddeley and Tom Lawrence

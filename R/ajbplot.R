@@ -31,15 +31,15 @@ place <- function(placename) {
 
 
 flatearth <- function(projection=c("atlas", "cylindrical"),
-                      gdata, runlen, asp=NULL){
-   if(missing(projection)) 
-       projection <- "atlas"
-   if(missing(gdata)) {
-     gdata <- get("earth")$coords
-   }
-   if(missing(runlen)) {
-     runlen <- get("earth")$runlen
-   }
+                      gdata, runlen, asp=NULL, ..., do.plot=TRUE){
+  if(missing(projection)) 
+    projection <- "atlas"
+  if(missing(gdata)) {
+    gdata <- get("earth")$coords
+  }
+  if(missing(runlen)) {
+    runlen <- get("earth")$runlen
+  }
   lonlat <- ensurelonlat(gdata)
   x <- lon <- lonlat$lon
   y <- lat <- lonlat$lat
@@ -57,22 +57,24 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
          },
          atlas={ }
          )
-  if(missing(asp)) {
-    plot(x, y, type = "n", axes=FALSE, xlim=xlim,ylim=ylim,
-         xlab = "Longitude", ylab = "Latitude")
-    axis(1, at=xat,labels=xlabs)
-    axis(2, at=yat,labels=ylabs, las=2)
-    box()
-  } else {
-    asp = asp * diff(xlim)/diff(ylim)
-    plot(x, y, type = "n", axes=FALSE, xlim=xlim,ylim=ylim,
-         xlab = "", ylab = "",
-         asp=asp)
-    axis(1, at=xat,labels=xlabs, pos=ylim[1])
-    axis(2, at=yat,labels=ylabs, las=2, pos=xlim[1])
-    title(ylab="Latitude")
-    text(mean(xat), ylim[1] - diff(ylim)/5, "Longitude", pos=1)
-    lines(xlim[c(1,2,2,1,1)],ylim[c(1,1,2,2,1)])
+  if(do.plot) {
+    if(missing(asp)) {
+      plot(x, y, type = "n", axes=FALSE, xlim=xlim,ylim=ylim,
+           xlab = "Longitude", ylab = "Latitude")
+      axis(1, at=xat,labels=xlabs)
+      axis(2, at=yat,labels=ylabs, las=2)
+      box()
+    } else {
+      asp = asp * diff(xlim)/diff(ylim)
+      plot(x, y, type = "n", axes=FALSE, xlim=xlim,ylim=ylim,
+           xlab = "", ylab = "",
+           asp=asp)
+      axis(1, at=xat,labels=xlabs, pos=ylim[1])
+      axis(2, at=yat,labels=ylabs, las=2, pos=xlim[1])
+      title(ylab="Latitude")
+      text(mean(xat), ylim[1] - diff(ylim)/5, "Longitude", pos=1)
+      lines(xlim[c(1,2,2,1,1)],ylim[c(1,1,2,2,1)])
+    }
   }
   
   # remove zeroes from run length vector
@@ -82,12 +84,17 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
   # which ones to draw
   s <- seq(x)[-breaks]
   # go
-  segments(x[s],y[s],x[s+1],y[s+1])
-  
-  invisible(NULL)
+  if(do.plot)
+    segments(x[s],y[s],x[s+1],y[s+1], ...)
+  result <- cbind(x[s], y[s], x[s+1], y[s+1])
+  z <- rep(FALSE, length(x))
+  z[breaks] <- TRUE
+  attr(result, "piece") <- as.integer(factor(cumsum(z)[-breaks]))
+  return(invisible(result))
 }
 
-flatpoints <- function(loc, projection=c("atlas", "cylindrical"), ...) {
+flatpoints <- function(loc, projection=c("atlas", "cylindrical"), ...,
+                       do.plot=TRUE) {
   if(missing(projection)) projection <- "atlas"
   lonlat <- ensurelonlat(loc)
   x <- lon <- lonlat$lon
@@ -98,7 +105,9 @@ flatpoints <- function(loc, projection=c("atlas", "cylindrical"), ...) {
          },
          atlas={ }
          )
-  points(x, y, ...)
+  if(do.plot)
+    points(x, y, ...)
+  return(invisible(list(x=x, y=y)))
 }
 
 cross <- function(a,b) {
@@ -196,7 +205,9 @@ ensurelonlat <- function(x) {
   return(list(lon=lon, lat=lat))
 }
 
-globeearth <- function(gdata, runlen, eye=place("nedlands"), top=place("northpole")) {
+globeearth <- function(gdata, runlen,
+                       eye=place("nedlands"), top=place("northpole"),
+                       ..., do.plot=TRUE) {
 
   if(missing(gdata)) {
     gdata <- get("earth")$coords
@@ -211,7 +222,8 @@ globeearth <- function(gdata, runlen, eye=place("nedlands"), top=place("northpol
   spos <- spatialpos(gdata[,1],gdata[,2])
   mpos <- orthogproj(eye, top, spos)
 
-  plot(c(-1,1), c(-1,1), type = "n", asp=1, axes=FALSE, xlab="", ylab="")
+  if(do.plot)
+    plot(c(-1,1), c(-1,1), type = "n", asp=1, axes=FALSE, xlab="", ylab="")
 
   x <- mpos[,1]
   y <- mpos[,2]
@@ -224,17 +236,20 @@ globeearth <- function(gdata, runlen, eye=place("nedlands"), top=place("northpol
   ok[breaks] <- FALSE
 
   s <- seq(x)[ok]
-  
-  segments(x[s],y[s],x[s+1],y[s+1])
 
-  # draw globe
-  a <- seq(0,2 * pi, length=360)
-  lines(cos(a),sin(a),lty=2)
-  
-  invisible(NULL)
+  if(do.plot) {
+    segments(x[s],y[s],x[s+1],y[s+1], ...)
+    ## draw globe
+    a <- seq(0,2 * pi, length=360)
+    lines(cos(a),sin(a),lty=2)
+  } 
+  result <- cbind(x[s], y[s], x[s+1], y[s+1])
+  attr(result, "piece") <- as.integer(factor(cumsum(!ok)[ok]))
+  return(invisible(result))
 }
 
-globepoints <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) {
+globepoints <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
+                        do.plot=TRUE) {
   
   eye <- ensure3d(eye)
   top <- ensure3d(top)
@@ -246,10 +261,15 @@ globepoints <- function(loc, eye=place("nedlands"), top=place("northpole"), ...)
   x <- mpos[,1]
   y <- mpos[,2]
   ok <- (mpos[,3] < 0)
-  points(x[ok], y[ok], ...)
+
+  result <- list(x=x[ok], y=y[ok])
+  if(do.plot)
+    points(result, ...)
+  return(invisible(result))
 }
 
-globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) {
+globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
+                       do.plot=TRUE) {
   
   eye <- ensure3d(eye)
   top <- ensure3d(top)
@@ -267,7 +287,11 @@ globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...) 
   y0 <- y[-n]
   y1 <- y[-1]
   ok <- ok[-n] & ok[-1]
-  segments(x0[ok], y0[ok], x1[ok], y1[ok], ...)
+  if(do.plot)
+    segments(x0[ok], y0[ok], x1[ok], y1[ok], ...)
+  result <- cbind(x0[ok], y0[ok], x1[ok], y1[ok])
+  attr(result, "piece") <- as.integer(factor(cumsum(!ok)[ok]))
+  return(invisible(result))
 }
 
 globedrawlong <- function(lon, eye=place("nedlands"),
@@ -294,13 +318,17 @@ runifsphere.wrong <- function(n) {
   return(data.frame(lon=lon,lat=lat))
 }
 
-globearrows <- function(loc, eye=place("nedlands"), top=place("northpole"), len=0.3, ...) {
+globearrows <- function(loc, eye=place("nedlands"), top=place("northpole"), len=0.3, ..., do.plot=TRUE) {
   eye <- ensure3d(eye)
   top <- ensure3d(top)
   spos <- spatialpos(loc[,1], loc[,2])
   tailpos <- orthogproj(eye, top, spos)
   headpos <- orthogproj(eye, top, (1 + len) * spos)
   ok <- (tailpos[,3] < 0)
-  segments(tailpos[ok,1],tailpos[ok,2],headpos[ok,1],headpos[ok,2], ...)
+  if(do.plot)
+    segments(tailpos[ok,1],tailpos[ok,2],headpos[ok,1],headpos[ok,2], ...)
+  result <- cbind(tailpos, headpos)[ok, , drop=FALSE]
+  attr(result, "piece") <- as.integer(factor(cumsum(ok)[ok]))
+  return(invisible(result))
 }
 

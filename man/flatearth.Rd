@@ -7,7 +7,8 @@ Plot the Earth as a 2D Projection
 Plots the Earth as specified 2D projection, with a map of the major coastline.
 }
 \usage{
-flatearth(projection = c("atlas", "cylindrical"), gdata, runlen, asp = NULL)
+flatearth(projection = c("atlas", "cylindrical"), gdata, runlen, asp = NULL,
+          ..., do.plot=TRUE)
 }
 \arguments{
   \item{projection}{
@@ -20,20 +21,31 @@ flatearth(projection = c("atlas", "cylindrical"), gdata, runlen, asp = NULL)
   }
   \item{runlen}{
     Integer vector giving the number of vertices in each connected
-    polygon in the coastline. 
+    polygon in the coastline. Defaults to \code{earth$runlen}.
   }
   \item{asp}{
     Optional. Aspect ratio of the longitude and latitude scales.
   }
+  \item{\dots}{
+    Optional arguments passed to \code{\link[graphics]{segments}}
+    to control the plotting of the coastline.
+  }
+  \item{do.plot}{
+    Logical value indicating whether to actually perform the plotting,
+    or just to return the calculated coordinates.
+  }
 }
 \details{
-  The atlas projection creates a rectangular image with no-rescaling to
-  account for the lines of longitude decreasing in length as one nears
-  the north or south pole.  The cylindrical projection involves such
-  re-scaling. 
+  In the \code{atlas} projection, the continents are
+  plotted in longitude, latitude coordinates without any correction.
+
+  In the \code{cylindrical} projection, the latitude is transformed
+  so that equal areas on the sphere are transformed onto equal areas
+  on the plot.
 }
 \value{
-  An image of the Earth using the desired projection.
+  (Invisibly) a 4-column matrix containing the projected \eqn{(x,y)}
+  coordinates of the segments of the coastline.
 }
 \author{
   Adrian Baddeley and Tom Lawrence

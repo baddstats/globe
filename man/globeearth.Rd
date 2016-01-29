@@ -8,7 +8,7 @@
   with a map of the major coastline (by default).
 }
 \usage{
-  globeearth(gdata, runlen, eye, top)
+  globeearth(gdata, runlen, eye, top, \dots, do.plot=TRUE)
 }
 \arguments{
   \item{gdata}{
@@ -30,6 +30,14 @@
     rotated so that this position appears to be directly above the
     centre of the earth. 
   }
+  \item{\dots}{
+    Arguments passed to \code{\link[graphics]{segments}} controlling the
+    plotting of the coastline.
+  }
+  \item{do.plot}{
+    Logical value indicating whether to actually perform the plotting,
+    or just to return the calculated coordinates.
+  }
 }
 \details{
   The globe is drawn as it would be seen by a viewer at position
@@ -38,7 +46,8 @@
   (on the side of the globe facing \code{eye}) will be plotted.
 }
 \value{
-Null.
+  (Invisibly) a 4-column matrix containing the projected \eqn{(x,y)}
+  coordinates of the segments of the coastline.
 }
 \author{
 Adrian Baddeley and Tom Lawrence
