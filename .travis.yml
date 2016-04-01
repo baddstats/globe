@@ -6,9 +6,9 @@ sudo: false
 cache: packages
 os:
 - linux
-- osx
 r_github_packages:
 - jimhester/covr
 - yihui/knitr
 after_success:
-  - Rscript -e 'library(covr);codecov()'
+- if [[ "$TRAVIS_R_VERSION" != "devel" && ("$TRAVIS_OS_NAME" == "linux") ]]; then Rscript -e 'covr::codecov(type = "example",
+  quiet = FALSE)'; fi
