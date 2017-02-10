@@ -6,7 +6,7 @@
   southpole=list(lon=0,lat=-90),
   casey=list(lon=110.524, lat=-66.282),
   mawson=list(lon=62.8667, lat=-67.6000),
-  madrid=list(lon=4+25/60, lat=40+17/60),
+  madrid=list(lon=-3.704, lat=40.417),
   aarhus=list(lon=10.21, lat=56.16),
   aalborg=list(lon=9.92, lat=57.05),
   newyorkcity=
