@@ -1,4 +1,3 @@
-
 .placedata <- list(
   nedlands=list(lon=115.82,lat=-31.99),
   curtin=list(lon=115.9240, lat=-32.0010),
@@ -32,7 +31,7 @@ place <- function(placename) {
 
 flatearth <- function(projection=c("atlas", "cylindrical"),
                       gdata, runlen, asp=NULL, ..., do.plot=TRUE){
-  if(missing(projection)) 
+  if(missing(projection))
     projection <- "atlas"
   if(missing(gdata)) {
     gdata <- get("earth")$coords
@@ -76,7 +75,7 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
       lines(xlim[c(1,2,2,1,1)],ylim[c(1,1,2,2,1)])
     }
   }
-  
+
   # remove zeroes from run length vector
   runlen <- runlen[runlen!=0]
   # do not draw line between points numbered breaks[i] and breaks[i]+1
@@ -122,11 +121,15 @@ dot <- function(a, b) {
   sum(a * b)
 }
 
-orthogproj <- function(eye=place("nedlands"), top=place("northpole"), loc) {
+orthogproj <- function(eye, top, loc) {
   #orthogonal projection of each row of 'loc' as seen from 'eye'
   # compute orthogonal triple
-  eye <- ensure3d(eye)
-  top <- ensure3d(top)
+
+  ## Resolve eye and top
+  et <- .globepars(eye, top)
+  eye <- et$eye
+  top <- et$top
+
   if(is.matrix(loc)) {
     if(ncol(loc) != 3)
       stop("matrix \"loc\" should have 3 columns")
@@ -144,7 +147,7 @@ orthogproj <- function(eye=place("nedlands"), top=place("northpole"), loc) {
 }
 
 spatialpos <- function(lon,lat) {
-  # spatial position (x,y,z) 
+  # spatial position (x,y,z)  
   # (radius of earth = 1)
   # (origin = centre of earth)
   if(missing(lat)) {
@@ -206,7 +209,7 @@ ensurelonlat <- function(x) {
 }
 
 globeearth <- function(gdata, runlen,
-                       eye=place("nedlands"), top=place("northpole"),
+                       eye, top,
                        ..., do.plot=TRUE) {
 
   if(missing(gdata)) {
@@ -215,12 +218,10 @@ globeearth <- function(gdata, runlen,
   if(missing(runlen)) {
     runlen <- get("earth")$runlen
   }
-  
-  eye <- ensure3d(eye)
-  top <- ensure3d(top)
-  
-  spos <- spatialpos(gdata[,1],gdata[,2])
-  mpos <- orthogproj(eye, top, spos)
+
+
+  spos <- spatialpos(gdata[,1], gdata[,2])
+  mpos <- orthogproj(eye = eye, top = top, spos)
 
   if(do.plot)
     plot(c(-1,1), c(-1,1), type = "n", asp=1, axes=FALSE, xlab="", ylab="")
@@ -242,22 +243,18 @@ globeearth <- function(gdata, runlen,
     ## draw globe
     a <- seq(0,2 * pi, length=360)
     lines(cos(a),sin(a),lty=2)
-  } 
+  }
   result <- cbind(x[s], y[s], x[s+1], y[s+1])
   attr(result, "piece") <- as.integer(factor(cumsum(!ok)[ok]))
   return(invisible(result))
 }
 
-globepoints <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
-                        do.plot=TRUE) {
-  
-  eye <- ensure3d(eye)
-  top <- ensure3d(top)
+globepoints <- function(loc, eye, top, ..., do.plot=TRUE) {
 
   lonlat <- ensurelonlat(loc)
   spos <- spatialpos(lonlat$lon,lonlat$lat)
-  
-  mpos <- orthogproj(eye, top, spos)
+
+  mpos <- orthogproj(eye = eye, top = top, spos)
   x <- mpos[,1]
   y <- mpos[,2]
   ok <- (mpos[,3] < 0)
@@ -268,16 +265,13 @@ globepoints <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
   return(invisible(result))
 }
 
-globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
+globelines <- function(loc, eye, top, ...,
                        do.plot=TRUE) {
-  
-  eye <- ensure3d(eye)
-  top <- ensure3d(top)
 
   lonlat <- ensurelonlat(loc)
   spos <- spatialpos(lonlat$lon,lonlat$lat)
-  
-  mpos <- orthogproj(eye, top, spos)
+
+  mpos <- orthogproj(eye = eye, top = top, spos)
   x <- mpos[,1]
   y <- mpos[,2]
   ok <- complete.cases(mpos) & (mpos[,3] < 0)
@@ -294,14 +288,12 @@ globelines <- function(loc, eye=place("nedlands"), top=place("northpole"), ...,
   return(invisible(result))
 }
 
-globedrawlong <- function(lon, eye=place("nedlands"),
-                          top=place("northpole"), ...) {
+globedrawlong <- function(lon, eye, top, ...) {
   globelines(expand.grid(lat=c(seq(-90,90,by=1), NA), lon=lon)[,2:1],
              eye, top, ...)
 }
 
-globedrawlat <- function(lat, eye=place("nedlands"),
-                         top=place("northpole"), ...) {
+globedrawlat <- function(lat, eye, top, ...) {
   globelines(expand.grid(lon=c(seq(-180,180,by=1), NA), lat=lat), eye, top, ...)
 }
 
@@ -318,12 +310,10 @@ runifsphere.wrong <- function(n) {
   return(data.frame(lon=lon,lat=lat))
 }
 
-globearrows <- function(loc, eye=place("nedlands"), top=place("northpole"), len=0.3, ..., do.plot=TRUE) {
-  eye <- ensure3d(eye)
-  top <- ensure3d(top)
+globearrows <- function(loc, eye, top, len=0.3, ..., do.plot=TRUE) {
   spos <- spatialpos(loc[,1], loc[,2])
-  tailpos <- orthogproj(eye, top, spos)
-  headpos <- orthogproj(eye, top, (1 + len) * spos)
+  tailpos <- orthogproj(eye = eye, top = top, spos)
+  headpos <- orthogproj(eye = eye, top = top, (1 + len) * spos)
   ok <- (tailpos[,3] < 0)
   if(do.plot)
     segments(tailpos[ok,1],tailpos[ok,2],headpos[ok,1],headpos[ok,2], ...)
@@ -332,3 +322,19 @@ globearrows <- function(loc, eye=place("nedlands"), top=place("northpole"), len=
   return(invisible(result))
 }
 
+.globe.package.env <- new.env()
+
+.globepars <- function(eye, top){
+  e <- .globe.package.env
+  if(!missing(eye)){
+    eye <- ensure3d(eye)
+    assign("eye", eye, envir = e)
+  }
+  if(!missing(top)){
+    top <- ensure3d(top)
+    assign("top", top, envir = e)
+  }
+  return(list(eye = get("eye", envir = e), top = get("top", envir = e)))
+}
+
+.globepars(eye = list(lon = 0, lat = 0), top = list(lon = 0, lat = 90))
