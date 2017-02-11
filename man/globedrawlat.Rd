@@ -8,8 +8,8 @@ Drawing lines of latitude and longitude
 These functions respectively draw lines of latitude and longitude on an image of the Earth create using \code{\link{globeearth}}.
 }
 \usage{
-globedrawlat(lat, eye = place("nedlands"), top = place("northpole"), ...)
-globedrawlong(lon, eye = place("nedlands"), top = place("northpole"), ...)
+globedrawlat(lat, eye, top, ...)
+globedrawlong(lon, eye, top, ...)
 
 }
 %- maybe also 'usage' for other objects documented here.

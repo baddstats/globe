@@ -10,12 +10,9 @@ Plot points, lines and arrows on a globe
   \code{\link{globeearth}} 
 }
 \usage{
-  globepoints(loc, eye=place("nedlands"), top=place("northpole"),
-              \dots, do.plot=TRUE) 
-  globelines(loc, eye=place("nedlands"), top=place("northpole"),
-              \dots, do.plot=TRUE) 
-  globearrows(loc, eye=place("nedlands"), top=place("northpole"), len=0.3,
-              \dots, do.plot=TRUE) 
+  globepoints(loc, eye, top, \dots, do.plot=TRUE) 
+  globelines(loc, eye, top, \dots, do.plot=TRUE) 
+  globearrows(loc, eye, top, len=0.3, \dots, do.plot=TRUE) 
 }
 \arguments{
   \item{loc}{
