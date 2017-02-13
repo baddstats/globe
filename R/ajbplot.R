@@ -17,13 +17,25 @@
   kilimanjaro=list(lon=37.3533, lat=3.0758)
 )
 
-place <- function(placename) {
+place <- function(placename, online = TRUE, verbose = TRUE) {
    stopifnot(is.character(placename))
    pn <- tolower(placename)
    if(pn %in% names(.placedata))
      return(.placedata[[pn]])
+   if(online && requireNamespace("RgoogleMaps", quietly = TRUE)){
+     if(verbose){
+       message("Didn't find ", sQuote(placename),
+               " among builtin placenames -- trying online via Google Maps API...")
+     }
+     rslt <- RgoogleMaps::getGeoCode(pn, verbose = verbose)
+     if(!anyNA(rslt)) return(list(lon = rslt["lon"], lat = rslt["lat"]))
+   } else{
+     if(verbose){
+       message("Install package RgoogleMaps to look for ", sQuote(placename), " online")
+     }
+   }
    stop(paste("Unrecognised placename", sQuote(placename),
-              "-- available places are",
+              "-- available builtin places are",
               paste(sQuote(names(.placedata)), collapse=", ")),
         call.=FALSE)
 }
