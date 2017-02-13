@@ -21,15 +21,14 @@ Plot points, lines and arrows on a globe
     order. 
   }
   \item{eye}{
-    Viewpoint. A vector of length 3 determining a position in space.
-    Should take the same value as when invoking
-    \code{\link{globeearth}}. 
+    Viewpoint. Should not be specified under normal circumstances since it is
+    set by a previous call to \code{\link{globeearth}} (details documented
+    there).
   }
   \item{top}{
-    Vector of length 3 determining a position in space. The plot will be
-    rotated so that this position appears to be directly above the
-    centre of the earth.  Should take the same value as when invoking
-    \code{\link{globeearth}}. 
+    Top of plot (commonly the North Pole). Should not be specified under normal
+    circumstances since it is set by a previous call to \code{\link{globeearth}}
+    (details documented there).
   }
   \item{len}{
     Length of arrows to be plotted (\code{globearrows} only)
@@ -84,8 +83,8 @@ ex1[2,2] <- 45
 ex1[3,1] <- -50
 ex1[3,2] <- 50
 globeearth(eye=place("newyorkcity"))
-globepoints(loc=ex1, place("newyorkcity"), top=place("northpole"))
-globelines(loc=ex1, place("newyorkcity"), top=place("northpole"))
-globearrows(loc=ex1, place("newyorkcity"), top=place("northpole"))
+globepoints(loc=ex1)
+globelines(loc=ex1)
+globearrows(loc=ex1)
 }
 \keyword{spatial}

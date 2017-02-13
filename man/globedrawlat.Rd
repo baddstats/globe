@@ -20,13 +20,17 @@ A list showing lines of latitude to be drawn
   \item{lon}{
 A list showing lines of longitude to be drawn
 }
-
   \item{eye}{
-Viewpoint. A vector of length 3 determining a position in space.  Should take the same value as when invoking \emph{globeearth}.
-}
+    Viewpoint. Should not be specified under normal circumstances since it is
+    set by a previous call to \code{\link{globeearth}} (details documented
+    there).
+  }
   \item{top}{
-   Vector of length 3 determining a position in space. The plot will be rotated so that this position appears to be directly above the centre of the earth. Should take the same value as when invoking \emph{globeearth}.
-}
+    Top of plot (commonly the North Pole). Should not be specified under normal
+    circumstances since it is set by a previous call to \code{\link{globeearth}}
+    (details documented there).
+  }
+
  \item{\dots}{
     Additional arguments passed to \code{\link{segments}} to 
     control the plotting of lines.
@@ -50,7 +54,7 @@ Use \code{\link{globepoints}} to add points to this plot,
 \examples{
 globeearth()
 globeearth(eye=place("madrid"))
-globedrawlat(lat=seq(-90, 90, 15), eye=place("aarhus"))
+globedrawlat(lat=seq(-90, 90, 15))
 globedrawlong(lon=seq(-180,180,30))
 }
 

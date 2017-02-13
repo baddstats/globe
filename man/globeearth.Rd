@@ -22,13 +22,19 @@
 }
   \item{eye}{
     Viewpoint. A vector of length 3 (or a \code{list(lon,lat)})
-    determining a position in space.
+    determining a position in space. If unspecified the last value from a call
+    to \code{globeearth} will be used. If this is the first call to
+    \code{globeearth} the default value of zero degrees latitude and longitude
+    will be used.
   }
   \item{top}{
     Vector of length 3 (or a \code{list(lon,lat)})
     determining a position in space. The plot will be
     rotated so that this position appears to be directly above the
-    centre of the earth. 
+    centre of the earth. If unspecified the last value from a call
+    to \code{globeearth} will be used. If this is the first call to
+    \code{globeearth} the default value of 90 degrees latitude and zero degrees
+    longitude (i.e. the North Pole) will be used.
   }
   \item{\dots}{
     Arguments passed to \code{\link[graphics]{segments}} controlling the
