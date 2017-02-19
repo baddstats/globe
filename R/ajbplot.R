@@ -178,13 +178,24 @@ spatialpos <- function(lon,lat) {
   )
 }
 
-
-ensure3d <- function(x) {
-  # Ensure 'x' is a single 3D vector
-  if(!is.vector(x) || length(x) != 3)
-    x <- as.vector(spatialpos(x))
-  if(!is.vector(x) || length(x) != 3)
-    stop("Can't convert to 3D point")
+ensure3d <- function(x, single = TRUE){
+  # Already a sigle 3D vector
+  if(is.numeric(x) && length(x) == 3)
+    return(as.numeric(x))
+  nc <- ncol(x)
+  if(!is.null(nc) && nc == 3){
+    # If it is already a matrix or data.frame with 3 columns all is good
+    x <- as.matrix(x)
+  } else{
+    # Now we assume it is some long,lat format
+    x <- ensurelonlat(x)
+    x <- spatialpos(x)
+  }
+  if(single){
+    if(nrow(x)!=1)
+      stop("Can't convert to a single 3D point")
+    x <- as.vector(x)
+  }
   return(x)
 }
 
@@ -251,8 +262,7 @@ globeearth <- function(gdata, runlen,
 
 globepoints <- function(loc, eye, top, ..., do.plot=TRUE) {
 
-  lonlat <- ensurelonlat(loc)
-  spos <- spatialpos(lonlat$lon,lonlat$lat)
+  spos <- ensure3d(loc, single = FALSE)
 
   mpos <- orthogproj(eye = eye, top = top, spos)
   x <- mpos[,1]
@@ -268,8 +278,7 @@ globepoints <- function(loc, eye, top, ..., do.plot=TRUE) {
 globelines <- function(loc, eye, top, ...,
                        do.plot=TRUE) {
 
-  lonlat <- ensurelonlat(loc)
-  spos <- spatialpos(lonlat$lon,lonlat$lat)
+  spos <- ensure3d(loc, single = FALSE)
 
   mpos <- orthogproj(eye = eye, top = top, spos)
   x <- mpos[,1]
@@ -327,11 +336,11 @@ globearrows <- function(loc, eye, top, len=0.3, ..., do.plot=TRUE) {
 .globepars <- function(eye, top){
   e <- .globe.package.env
   if(!missing(eye)){
-    eye <- ensure3d(eye)
+    eye <- ensure3d(eye, single = TRUE)
     assign("eye", eye, envir = e)
   }
   if(!missing(top)){
-    top <- ensure3d(top)
+    top <- ensure3d(top, single = TRUE)
     assign("top", top, envir = e)
   }
   return(list(eye = get("eye", envir = e), top = get("top", envir = e)))
