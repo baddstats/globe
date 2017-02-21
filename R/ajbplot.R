@@ -200,6 +200,13 @@ ensure3d <- function(x, single = TRUE){
 }
 
 ensurelonlat <- function(x) {
+  if(is.numeric(x) && length(x) == 3){
+    x <- matrix(x, ncol = 3)
+  }
+  if(is.data.frame(x) && ncol(x) == 3){
+    x <- as.matrix(x)
+    row.names(x) <- NULL
+  }
   if(is.list(x)) {
     if(!is.null(x$lon) && !is.null(x$lat)) {
       lon <- x$lon
@@ -214,6 +221,9 @@ ensurelonlat <- function(x) {
   } else if(length(x) == 2) {
     lon <- x[1]
     lat <- x[2]
+  } else if(is.matrix(x) && ncol(x) == 3){
+    lon <- atan2(x[,2], x[,1])*180/pi
+    lat <- atan2(x[,3], sqrt(x[,1]^2+x[,2]^2))*180/pi
   } else
   stop("Don't know how to extract longitude and latitude from these data")
   return(list(lon=lon, lat=lat))
