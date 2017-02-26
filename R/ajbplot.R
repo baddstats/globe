@@ -353,11 +353,11 @@ globearrows <- function(loc, eye, top, len=0.3, ..., do.plot=TRUE) {
 
 .globepars <- function(eye, top){
   e <- .globe.package.env
-  if(!missing(eye)){
+  if(!missing(eye) && !is.null(eye)){
     eye <- ensure3d(eye, single = TRUE)
     assign("eye", eye, envir = e)
   }
-  if(!missing(top)){
+  if(!missing(top) && !is.null(top)){
     top <- ensure3d(top, single = TRUE)
     assign("top", top, envir = e)
   }
