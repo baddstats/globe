@@ -35,13 +35,11 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
     projection <- "atlas"
   if(missing(gdata)) {
     # gdata <- get("earth")$coords
-    data("earth", envir = environment(), package = "globe")
-    gdata <- earth$coords
+    gdata <- globe::earth$coords
   }
   if(missing(runlen)) {
     # runlen <- get("earth")$runlen
-    data("earth", envir = environment(), package = "globe")
-    runlen <- earth$runlen
+    runlen <- globe::earth$runlen
   }
   lonlat <- ensurelonlat(gdata)
   x <- lon <- lonlat$lon
@@ -239,13 +237,11 @@ globeearth <- function(gdata, runlen,
 
   if(missing(gdata)) {
     # gdata <- get("earth")$coords
-    data("earth", envir = environment(), package = "globe")
-    gdata <- earth$coords
+    gdata <- globe::earth$coords
   }
   if(missing(runlen)) {
     # runlen <- get("earth")$runlen
-    data("earth", envir = environment(), package = "globe")
-    runlen <- earth$runlen
+    runlen <- globe::earth$runlen
   }
 
 
