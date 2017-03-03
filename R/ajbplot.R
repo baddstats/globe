@@ -77,7 +77,10 @@ flatearth <- function(projection=c("atlas", "cylindrical"),
       lines(xlim[c(1,2,2,1,1)],ylim[c(1,1,2,2,1)])
     }
   }
-
+  
+  # Exit if gdata is null
+  if(is.null(gdata))
+    return(invisible(matrix(numeric(0), ncol = 4)))
   # remove zeroes from run length vector
   runlen <- runlen[runlen!=0]
   # do not draw line between points numbered breaks[i] and breaks[i]+1
@@ -202,6 +205,9 @@ ensure3d <- function(x, single = TRUE){
 }
 
 ensurelonlat <- function(x) {
+  if(is.null(x)){
+    return(list(lon = NULL, lat = NULL))
+  }
   if(is.numeric(x) && length(x) == 3){
     x <- matrix(x, ncol = 3)
   }
