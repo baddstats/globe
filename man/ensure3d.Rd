@@ -1,7 +1,6 @@
 \name{ensure}
 \alias{ensure3d}
 \alias{ensurelonlat}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Checking and converting coordinates
 }
@@ -9,10 +8,9 @@ Checking and converting coordinates
 This is used as a checking mechanism for other functions to ensure data is given in the appropriate format, and if it is not, converting to the appropriate format where possible.
 }
 \usage{
-ensure3d(x, single = TRUE)
+ensure3d(x, single = FALSE)
 ensurelonlat(x)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 A vector, matrix or dataframe to be checked
@@ -31,14 +29,12 @@ Logical indicating whether a single point is expected.
 A numeric vector or matrix
 \emph{ensurelonlat}
 \item{$lon}{List of Longitudes}
-%%  \item{$lat}{List of Latitudes}
-%% ...
+\item{$lat}{List of Latitudes}
 }
 
 \author{
-Adrian Baddeley and Tom Lawrence
+Adrian Baddeley, Ege Rubak and Tom Lawrence
 }
-
 \seealso{
 \code{\link{spatialpos}}
 }

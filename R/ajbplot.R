@@ -183,8 +183,8 @@ spatialpos <- function(lon,lat) {
   )
 }
 
-ensure3d <- function(x, single = TRUE){
-  # Already a sigle 3D vector
+ensure3d <- function(x, single = FALSE){
+  # Already a single 3D vector?
   if(is.numeric(x) && length(x) == 3)
     return(as.numeric(x))
   nc <- ncol(x)
